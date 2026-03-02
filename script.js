@@ -198,7 +198,300 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
+/* ===========================
+   FORM VALIDATION & NOTIFICATIONS
+   =========================== */
+
 document.addEventListener("DOMContentLoaded", function(){
+
+    // ---------- Registration Form Validation ----------
+    const registerBtn = document.getElementById("registerBtn");
+    const nameInput = document.querySelector('input[placeholder="Nama Lengkap"]');
+    const emailInput = document.querySelector('input[type="email"]');
+    const passwordInput = document.querySelector('input[type="password"]');
+
+    // Create notification container if it doesn't exist
+    function createNotificationContainer() {
+        let container = document.getElementById('notification-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'notification-container';
+            container.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1000;
+                width: 300px;
+            `;
+            document.body.appendChild(container);
+        }
+        return container;
+    }
+
+    // Show notification function
+    function showNotification(message, type = 'error') {
+        const container = createNotificationContainer();
+        
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            background: ${type === 'error' ? '#ff4757' : type === 'success' ? '#2ed573' : '#ffa726'};
+            color: white;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-right: 40px;
+        `;
+        
+        notification.innerHTML = `
+            ${message}
+            <button style="
+                position: absolute; 
+                right: 8px; 
+                top: 50%; 
+                transform: translateY(-50%);
+                background: none; 
+                border: none; 
+                color: white; 
+                font-size: 16px; 
+                cursor: pointer;
+                width: 20px;
+                height: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            " onclick="this.parentElement.remove()">×</button>
+        `;
+
+        container.appendChild(notification);
+
+        // Animate in
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+            notification.style.opacity = '1';
+        }, 10);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.style.transform = 'translateX(100%)';
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }
+        }, 5000);
+    }
+
+    // Validation functions
+    function validateName(name) {
+        if (!name.trim()) {
+            return { valid: false, message: 'Nama lengkap harus diisi' };
+        }
+        if (name.trim().length < 2) {
+            return { valid: false, message: 'Nama minimal 2 karakter' };
+        }
+        if (!/^[a-zA-Z\s]+$/.test(name)) {
+            return { valid: false, message: 'Nama hanya boleh berisi huruf dan spasi' };
+        }
+        return { valid: true, message: 'Nama valid' };
+    }
+
+    function validateEmail(email) {
+        if (!email.trim()) {
+            return { valid: false, message: 'Email harus diisi' };
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return { valid: false, message: 'Format email tidak valid' };
+        }
+        return { valid: true, message: 'Email valid' };
+    }
+
+    function validatePassword(password) {
+        if (!password) {
+            return { valid: false, message: 'Password harus diisi' };
+        }
+        if (password.length < 8) {
+            return { valid: false, message: 'Password minimal 8 karakter' };
+        }
+        if (!/(?=.*[a-z])/.test(password)) {
+            return { valid: false, message: 'Password harus mengandung huruf kecil' };
+        }
+        if (!/(?=.*[A-Z])/.test(password)) {
+            return { valid: false, message: 'Password harus mengandung huruf besar' };
+        }
+        if (!/(?=.*\d)/.test(password)) {
+            return { valid: false, message: 'Password harus mengandung angka' };
+        }
+        return { valid: true, message: 'Password kuat' };
+    }
+
+    // Real-time validation for each input
+    if (nameInput) {
+        nameInput.addEventListener('input', function() {
+            const validation = validateName(this.value);
+            const parentDiv = this.parentElement;
+            
+            // Remove all validation classes
+            parentDiv.classList.remove('valid', 'invalid', 'warning');
+            this.style.borderColor = '';
+            
+            if (!validation.valid && this.value.length > 0) {
+                showNotification(validation.message, 'error');
+                parentDiv.classList.add('invalid');
+            } else if (validation.valid) {
+                parentDiv.classList.add('valid');
+            }
+        });
+
+        nameInput.addEventListener('blur', function() {
+            if (this.value.length > 0) {
+                const validation = validateName(this.value);
+                const parentDiv = this.parentElement;
+                
+                parentDiv.classList.remove('valid', 'invalid', 'warning');
+                
+                if (!validation.valid) {
+                    parentDiv.classList.add('invalid');
+                } else {
+                    parentDiv.classList.add('valid');
+                }
+            }
+        });
+    }
+
+    if (emailInput) {
+        emailInput.addEventListener('input', function() {
+            const validation = validateEmail(this.value);
+            const parentDiv = this.parentElement;
+            
+            // Remove all validation classes
+            parentDiv.classList.remove('valid', 'invalid', 'warning');
+            this.style.borderColor = '';
+            
+            if (!validation.valid && this.value.length > 0) {
+                showNotification(validation.message, 'error');
+                parentDiv.classList.add('invalid');
+            } else if (validation.valid) {
+                showNotification(validation.message, 'success');
+                parentDiv.classList.add('valid');
+            }
+        });
+
+        emailInput.addEventListener('blur', function() {
+            if (this.value.length > 0) {
+                const validation = validateEmail(this.value);
+                const parentDiv = this.parentElement;
+                
+                parentDiv.classList.remove('valid', 'invalid', 'warning');
+                
+                if (!validation.valid) {
+                    parentDiv.classList.add('invalid');
+                } else {
+                    parentDiv.classList.add('valid');
+                }
+            }
+        });
+    }
+
+    if (passwordInput) {
+        passwordInput.addEventListener('input', function() {
+            const validation = validatePassword(this.value);
+            const parentDiv = this.parentElement;
+            
+            // Remove all validation classes
+            parentDiv.classList.remove('valid', 'invalid', 'warning');
+            this.style.borderColor = '';
+            
+            if (!validation.valid && this.value.length > 0) {
+                showNotification(validation.message, 'warning');
+                parentDiv.classList.add('warning');
+            } else if (validation.valid) {
+                showNotification(validation.message, 'success');
+                parentDiv.classList.add('valid');
+            }
+        });
+
+        passwordInput.addEventListener('blur', function() {
+            if (this.value.length > 0) {
+                const validation = validatePassword(this.value);
+                const parentDiv = this.parentElement;
+                
+                parentDiv.classList.remove('valid', 'invalid', 'warning');
+                
+                if (!validation.valid) {
+                    parentDiv.classList.add('warning');
+                } else {
+                    parentDiv.classList.add('valid');
+                }
+            }
+        });
+    }
+
+    // Register button validation
+    if (registerBtn) {
+        registerBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Prevent multiple clicks during processing
+            if (this.classList.contains('loading')) return;
+            
+            const nameVal = nameInput ? nameInput.value : '';
+            const emailVal = emailInput ? emailInput.value : '';
+            const passwordVal = passwordInput ? passwordInput.value : '';
+
+            const nameValidation = validateName(nameVal);
+            const emailValidation = validateEmail(emailVal);
+            const passwordValidation = validatePassword(passwordVal);
+
+            // Show all validation errors
+            let hasErrors = false;
+            if (!nameValidation.valid) {
+                showNotification(nameValidation.message, 'error');
+                nameInput.parentElement.classList.add('invalid');
+                hasErrors = true;
+            }
+            if (!emailValidation.valid) {
+                showNotification(emailValidation.message, 'error');
+                emailInput.parentElement.classList.add('invalid');
+                hasErrors = true;
+            }
+            if (!passwordValidation.valid) {
+                showNotification(passwordValidation.message, 'error');
+                passwordInput.parentElement.classList.add('warning');
+                hasErrors = true;
+            }
+
+            // If all validations pass
+            if (nameValidation.valid && emailValidation.valid && passwordValidation.valid) {
+                // Add loading state
+                this.classList.add('loading');
+                this.textContent = 'Mendaftarkan...';
+                
+                showNotification('Memproses registrasi...', 'success');
+                
+                // Simulate registration process
+                setTimeout(() => {
+                    showNotification('Registrasi berhasil! Selamat datang di AcaHub', 'success');
+                    
+                    setTimeout(() => {
+                        showNotification('Mengarahkan ke halaman login...', 'success');
+                        
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 1000);
+                    }, 1500);
+                }, 2000);
+            } else {
+                showNotification('Mohon perbaiki data yang tidak valid', 'error');
+            }
+        });
+    }
 
 const light = document.getElementById("mouseLight");
 const button = document.getElementById("loginBtn");
