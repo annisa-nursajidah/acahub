@@ -1,54 +1,780 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AcaHub — Masuk ke akun Anda">
+    <title>Login — AcaHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ===== Login Page Styles ===== */
+        .login-page {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        /* --- Left Panel (Brand) --- */
+        .login-brand {
+            background: linear-gradient(145deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 48px 56px;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
 
-<title>AcaHub Login</title>
+        .login-brand::before {
+            content: '';
+            position: absolute;
+            top: -120px;
+            right: -120px;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+        }
 
-<link rel="stylesheet" href="./styles.css">
+        .login-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.04);
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        .brand-logo {
+            font-family: var(--font-primary);
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--white);
+            text-decoration: none;
+            position: relative;
+            z-index: 1;
+        }
 
+        .brand-logo span {
+            color: var(--accent-light);
+        }
+
+        .brand-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-full);
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 28px;
+            backdrop-filter: blur(4px);
+        }
+
+        .brand-badge-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--accent-light);
+            border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.85); }
+        }
+
+        .brand-heading {
+            font-family: var(--font-primary);
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+        }
+
+        .brand-heading .accent {
+            color: var(--accent-light);
+        }
+
+        .brand-description {
+            font-size: 16px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 380px;
+            margin-bottom: 40px;
+        }
+
+        .brand-stats {
+            display: flex;
+            gap: 32px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stat-number {
+            font-family: var(--font-primary);
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .stat-divider {
+            width: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            align-self: stretch;
+        }
+
+        .brand-footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand-testimonial {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            backdrop-filter: blur(8px);
+        }
+
+        .testimonial-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .author-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-primary);
+            font-weight: 700;
+            font-size: 15px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .author-info .author-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--white);
+        }
+
+        .author-info .author-role {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* --- Right Panel (Form) --- */
+        .login-form-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 56px 48px;
+            background: var(--gray-50);
+        }
+
+        .login-form-wrapper {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .form-header {
+            margin-bottom: 36px;
+        }
+
+        .form-header-eyebrow {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .form-header h1 {
+            font-family: var(--font-primary);
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--gray-900);
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .form-header p {
+            font-size: 15px;
+            color: var(--gray-500);
+            line-height: 1.6;
+        }
+
+        /* Role Selector */
+        .role-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+
+        .role-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 10px;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--white);
+        }
+
+        .role-option:hover {
+            border-color: var(--primary-light);
+            background: var(--teal-light);
+        }
+
+        .role-option.active {
+            border-color: var(--primary);
+            background: var(--teal-light);
+            box-shadow: 0 0 0 3px rgba(13, 115, 119, 0.12);
+        }
+
+        .role-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .role-icon.teacher { background: #eff6ff; }
+        .role-icon.student { background: var(--teal-light); }
+        .role-icon.parent  { background: var(--orange-light); }
+
+        .role-option.active .role-icon.teacher { background: #dbeafe; }
+        .role-option.active .role-icon.student  { background: #ccfbf1; }
+        .role-option.active .role-icon.parent   { background: #fed7aa; }
+
+        .role-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-600);
+        }
+
+        .role-option.active .role-name {
+            color: var(--primary-dark);
+        }
+
+        /* Form Fields */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+            display: flex;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 14px 12px 42px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--gray-800);
+            background: var(--white);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        .form-input::placeholder {
+            color: var(--gray-400);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(13, 115, 119, 0.1);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray-400);
+            display: flex;
+            align-items: center;
+            transition: color 0.15s;
+            padding: 0;
+        }
+
+        .toggle-password:hover { color: var(--primary); }
+
+        /* Options Row */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .forgot-link {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .forgot-link:hover { color: var(--primary-dark); text-decoration: underline; }
+
+        /* Submit Button */
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: var(--font-primary);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 20px;
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-login:active { transform: translateY(0); }
+
+        /* Divider */
+        .form-divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .form-divider::before,
+        .form-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--gray-200);
+        }
+
+        .form-divider span {
+            font-size: 13px;
+            color: var(--gray-400);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        /* OAuth Buttons */
+        .oauth-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .btn-oauth {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 16px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            background: var(--white);
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-700);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-oauth:hover {
+            border-color: var(--gray-300);
+            background: var(--gray-50);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Footer */
+        .form-footer {
+            text-align: center;
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        .form-footer a {
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .form-footer a:hover { text-decoration: underline; }
+
+        /* Security Note */
+        .security-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 24px;
+            font-size: 12px;
+            color: var(--gray-400);
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 900px) {
+            .login-page { grid-template-columns: 1fr; }
+            .login-brand { display: none; }
+            .login-form-panel { padding: 40px 24px; }
+        }
+
+        @media (max-width: 480px) {
+            .form-header h1 { font-size: 26px; }
+            .oauth-buttons { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
+
 <body>
+    <div class="login-page">
 
-<section class="acahub-auth-page">
+        <!-- ===== Left: Brand Panel ===== -->
+        <aside class="login-brand">
+            <a href="index.html" class="brand-logo">Aca<span>Hub</span></a>
 
-<div class="mouse-light" id="mouseLight"></div>
+            <div class="brand-content">
+                <div class="brand-badge">
+                    <span class="brand-badge-dot"></span>
+                    Trusted by 500+ Schools
+                </div>
+                <h2 class="brand-heading">
+                    Education that<br>
+                    <span class="accent">Connects.</span><br>
+                    Simply.
+                </h2>
+                <p class="brand-description">
+                    Selamat datang kembali! Masuk untuk mengakses dashboard, nilai real-time, dan komunikasi yang lebih lancar antara guru, siswa, dan orang tua.
+                </p>
+                <div class="brand-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Sekolah Aktif</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">50K+</span>
+                        <span class="stat-label">Pengguna</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">98%</span>
+                        <span class="stat-label">Kepuasan</span>
+                    </div>
+                </div>
+            </div>
 
-<div class="acahub-auth-box">
+            <div class="brand-footer">
+                <div class="brand-testimonial">
+                    <p class="testimonial-text">
+                        "AcaHub mengubah cara kami berkomunikasi dengan orang tua. Nilai langsung ter-update, tidak perlu tunggu rapor."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SR</div>
+                        <div class="author-info">
+                            <div class="author-name">Sari Rahayu</div>
+                            <div class="author-role">Guru Matematika, SMP Negeri 3 Jakarta</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
 
-<h2>Selamat Datang</h2>
-<p>Masuk untuk melanjutkan ke AcaHub</p>
+        <!-- ===== Right: Form Panel ===== -->
+        <main class="login-form-panel">
+            <div class="login-form-wrapper">
 
-<form id="loginForm">
+                <div class="form-header">
+                    <p class="form-header-eyebrow">Selamat Datang Kembali</p>
+                    <h1>Masuk ke AcaHub</h1>
+                    <p>Pilih peran Anda dan masukkan kredensial untuk melanjutkan.</p>
+                </div>
 
-<div class="acahub-input">
-<input type="email" id="email" required placeholder="Email">
-</div>
+                <!-- Role Selector -->
+                <div class="role-selector" id="roleSelector">
+                    <button class="role-option active" data-role="teacher" type="button" onclick="selectRole(this)">
+                        <div class="role-icon teacher">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <span class="role-name">Guru</span>
+                    </button>
+                    <button class="role-option" data-role="student" type="button" onclick="selectRole(this)">
+                        <div class="role-icon student">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                            </svg>
+                        </div>
+                        <span class="role-name">Siswa</span>
+                    </button>
+                    <button class="role-option" data-role="parent" type="button" onclick="selectRole(this)">
+                        <div class="role-icon parent">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                        <span class="role-name">Orang Tua</span>
+                    </button>
+                </div>
 
-<div class="acahub-input">
-<input type="password" id="password" required placeholder="Password">
-</div>
+                <!-- Login Form -->
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                    <polyline points="22,6 12,13 2,6"/>
+                                </svg>
+                            </span>
+                            <input
+                                type="email"
+                                id="email"
+                                class="form-input"
+                                placeholder="nama@sekolah.ac.id"
+                                autocomplete="email"
+                                required
+                            />
+                        </div>
+                    </div>
 
-<button type="submit" class="acahub-btn">
-Masuk Sekarang
-</button>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                            </span>
+                            <input
+                                type="password"
+                                id="password"
+                                class="form-input"
+                                placeholder="Masukkan password"
+                                autocomplete="current-password"
+                                required
+                            />
+                            <button type="button" class="toggle-password" onclick="togglePassword()" aria-label="Toggle password visibility" id="toggleBtn">
+                                <!-- Eye icon (show) -->
+                                <svg id="eyeShow" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                <!-- Eye-off icon (hide) -->
+                                <svg id="eyeHide" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                                    <line x1="1" y1="1" x2="23" y2="23"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
 
-</form>
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rememberMe" />
+                            Ingat saya
+                        </label>
+                        <a href="#" class="forgot-link">Lupa password?</a>
+                    </div>
 
-<div class="acahub-login-link">
-Belum punya akun?
-<a href="./page.html">Daftar di sini</a>
-</div>
+                    <button type="submit" class="btn-login">
+                        Masuk ke Dashboard
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                            <polyline points="12 5 19 12 12 19"/>
+                        </svg>
+                    </button>
+                </form>
 
-</div>
+                <div class="form-divider"><span>atau masuk dengan</span></div>
 
-</section>
+                <div class="oauth-buttons">
+                    <button class="btn-oauth" type="button">
+                        <!-- Google Icon -->
+                        <svg width="18" height="18" viewBox="0 0 48 48">
+                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                        </svg>
+                        Google
+                    </button>
+                    <button class="btn-oauth" type="button">
+                        <!-- Microsoft Icon -->
+                        <svg width="18" height="18" viewBox="0 0 21 21">
+                            <rect x="1" y="1" width="9" height="9" fill="#F25022"/>
+                            <rect x="11" y="1" width="9" height="9" fill="#7FBA00"/>
+                            <rect x="1" y="11" width="9" height="9" fill="#00A4EF"/>
+                            <rect x="11" y="11" width="9" height="9" fill="#FFB900"/>
+                        </svg>
+                        Microsoft
+                    </button>
+                </div>
 
-<script src="./login.js"></script>
+                <p class="form-footer">
+                    Belum punya akun? <a href="#">Daftar sekarang</a>
+                </p>
 
+                <div class="security-note">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    Koneksi aman dengan enkripsi SSL 256-bit
+                </div>
+
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        // Role selection
+        function selectRole(el) {
+            document.querySelectorAll('.role-option').forEach(btn => btn.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        // Toggle password visibility
+        function togglePassword() {
+            const input = document.getElementById('password');
+            const eyeShow = document.getElementById('eyeShow');
+            const eyeHide = document.getElementById('eyeHide');
+            if (input.type === 'password') {
+                input.type = 'text';
+                eyeShow.style.display = 'none';
+                eyeHide.style.display = 'block';
+            } else {
+                input.type = 'password';
+                eyeShow.style.display = 'block';
+                eyeHide.style.display = 'none';
+            }
+        }
+
+        // Handle form submit (placeholder)
+        function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.querySelector('.btn-login');
+            const role = document.querySelector('.role-option.active')?.dataset.role ?? 'teacher';
+            btn.textContent = 'Memproses...';
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = 'Masuk ke Dashboard <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+                alert(`Login sebagai ${role} berhasil! (demo)`);
+            }, 1200);
+        }
+    </script>
 </body>
+
 </html>
