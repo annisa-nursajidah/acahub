@@ -1,3 +1,174 @@
+body{
+margin:0;
+font-family:'Inter',sans-serif;
+background:#f3f6fb;
+overflow:hidden;
+}
+
+/* Background */
+.acahub-auth-page{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+background:linear-gradient(120deg,#f3f6fb,#eef2f9,#f8fafc);
+overflow:hidden;
+}
+
+/* Floating blobs */
+.acahub-auth-page::before,
+.acahub-auth-page::after{
+content:"";
+position:absolute;
+width:500px;
+height:500px;
+border-radius:50%;
+filter:blur(120px);
+opacity:0.4;
+animation:float 10s infinite ease-in-out;
+}
+
+.acahub-auth-page::before{
+background:#e87a2e;
+top:-150px;
+right:-150px;
+}
+
+.acahub-auth-page::after{
+background:#6366f1;
+bottom:-150px;
+left:-150px;
+animation-delay:4s;
+}
+
+/* Mouse light */
+.mouse-light{
+position:absolute;
+width:400px;
+height:400px;
+background:radial-gradient(circle,rgba(232,122,46,0.25),transparent 60%);
+border-radius:50%;
+pointer-events:none;
+transform:translate(-50%,-50%);
+}
+
+/* Card */
+.acahub-auth-box{
+position:relative;
+z-index:1;
+width:420px;
+padding:55px;
+border-radius:20px;
+background:white;
+box-shadow:
+0 30px 60px rgba(0,0,0,0.08);
+animation:fadeUp 1s ease;
+transition:0.3s;
+}
+
+.acahub-auth-box:hover{
+transform:translateY(-5px);
+box-shadow:0 40px 80px rgba(0,0,0,0.12);
+}
+
+/* Title */
+.acahub-auth-box h2{
+margin-bottom:10px;
+font-size:28px;
+}
+
+.acahub-auth-box p{
+color:#64748b;
+margin-bottom:30px;
+}
+
+/* Input */
+.acahub-input{
+position:relative;
+margin-bottom:25px;
+}
+
+.acahub-input input{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:1px solid #ddd;
+font-size:14px;
+outline:none;
+transition:0.3s;
+}
+
+.acahub-input input:focus{
+border-color:#e87a2e;
+box-shadow:0 0 0 4px rgba(232,122,46,0.15);
+}
+
+/* Button */
+.acahub-btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#e87a2e,#ff9d4d);
+color:white;
+font-weight:600;
+cursor:pointer;
+position:relative;
+overflow:hidden;
+transition:0.3s;
+}
+
+.acahub-btn:hover{
+transform:translateY(-3px);
+box-shadow:0 15px 35px rgba(232,122,46,0.4);
+}
+
+/* Ripple */
+.ripple{
+position:absolute;
+border-radius:50%;
+background:rgba(255,255,255,0.6);
+transform:scale(0);
+animation:ripple 600ms linear;
+pointer-events:none;
+}
+
+/* Login link */
+.acahub-login-link{
+margin-top:20px;
+text-align:center;
+}
+
+.acahub-login-link a{
+color:#e87a2e;
+font-weight:600;
+text-decoration:none;
+}
+
+/* Animations */
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(40px);}
+}
+
+@keyframes ripple{
+to{
+transform:scale(4);
+opacity:0;
+}
+}
 /* ===========================
    AcaHub — Design System & Styles
    =========================== */
