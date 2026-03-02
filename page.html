@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halaman Daftar</title>
+  <!-- use explicit relative path; leads with ./ to emphasise 'same folder' -->
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+  <div class="container">
+    <h2>Form Pendaftaran</h2>
+    
+    <form id="registerForm">
+      <div class="input-group">
+        <label>Nama Lengkap</label>
+        <input type="text" placeholder="Masukkan nama lengkap" required>
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" placeholder="Masukkan email" required>
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" placeholder="Masukkan password" required>
+      </div>
+
+      <button type="submit">Daftar</button>
+    </form>
+
+    <p class="login-link">
+      Sudah punya akun? <a href="index.html">Login disini</a>
+    </p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
