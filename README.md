@@ -1,43 +1,148 @@
 # 🎓 AcaHub — Platform Pendidikan Digital
 
 AcaHub adalah sistem manajemen pendidikan berbasis **Native PHP** yang menghubungkan guru, siswa, dan orang tua dalam satu platform terintegrasi. Dibangun dengan PHP murni dan Tailwind CSS v3.
-   
----
-
-## 📋 Fitur Utama
-
-- 🔐 **Autentikasi** — Login, Register, Logout dengan session & cookie (Remember Me)
-- 📊 **Dashboard** — Statistik, grafik nilai, pengumuman terbaru
-- 📝 **Manajemen Nilai** — Input & pantau nilai siswa (UH, UTS, UAS, Tugas)
-- 📚 **Mata Pelajaran** — Kelola daftar mapel beserta guru pengampu
-- 📢 **Pengumuman** — Buat dan kelola pengumuman sekolah
-- 📄 **Rapor** — Laporan akademik per siswa per semester
-- 👤 **Kelola Users** — CRUD pengguna (Admin, Guru, Siswa, Orang Tua)
-- 🏫 **Admin Panel** — Panel khusus admin untuk manajemen sistem
 
 ---
 
-## 🛠️ Persyaratan Sistem
+## 👥 Informasi Kelompok
+
+| No | NPM           | Nama Anggota               |
+|----|---------------|-----------------------------|
+| 1  | 24082010016   | Krisna Pratama Wijaya       |
+| 2  | 24082010025   | Putri Anggun Lestari        |
+| 3  | 24082010039   | Ahmad Zulfikar Ramdzi       |
+
+---
+
+## 📝 Pembagian Tugas
+
+### Krisna Pratama Wijaya — `admin/` & `auth/`
+Bertanggung jawab atas sistem autentikasi dan panel admin:
+- `auth/login.php` — Halaman login pengguna
+- `auth/register.php` — Halaman registrasi pengguna baru
+- `auth/logout.php` — Proses logout & hapus session
+- `admin/admin.php` — Panel admin (kelola users, pengumuman, mata pelajaran)
+
+### Putri Anggun Lestari — `layout/` & `index.php`
+Bertanggung jawab atas tampilan utama dan layout:
+- `index.php` — Landing page AcaHub (hero, fitur, cara kerja, CTA)
+- `layout/header.php` — Sidebar navigasi, topbar, dan flash message
+- `layout/footer.php` — Footer halaman
+- `layout/tailwind-config.php` — Konfigurasi Tailwind CSS & design tokens
+
+### Ahmad Zulfikar Ramdzi — `pages/`, `utils/`, `config.php`, `helpers.php`, `database.sql`
+Bertanggung jawab atas logika backend, halaman fitur, dan database:
+- `config.php` — Koneksi database PDO & konfigurasi session
+- `helpers.php` — Fungsi helper (auth, redirect, CSRF, flash message)
+- `database.sql` — Schema database & sample data
+- `pages/dashboard.php` — Dashboard utama dengan statistik & grafik
+- `pages/grades.php` — Manajemen nilai siswa (input & tampil)
+- `pages/subjects.php` — Daftar mata pelajaran
+- `pages/announcements.php` — Kelola pengumuman sekolah
+- `pages/users.php` — CRUD pengguna
+- `pages/reports.php` — Rapor akademik siswa
+- `pages/notifications.php` — Halaman notifikasi
+- `utils/fix_hash.php` — Utility reset password untuk development
+
+---
+
+## 📖 Deskripsi Aplikasi
+
+### Tentang AcaHub
+
+AcaHub adalah **platform manajemen pendidikan** yang dirancang untuk memudahkan pengelolaan kegiatan akademik di lingkungan sekolah. Aplikasi ini menyediakan satu ekosistem terpadu bagi **admin**, **guru**, **siswa**, dan **orang tua** untuk berinteraksi dan memantau perkembangan pendidikan secara real-time.
+
+Aplikasi ini dibangun menggunakan **PHP Native** (tanpa framework) untuk memenuhi kebutuhan pembelajaran pemrograman web dasar, dengan tetap menerapkan best practices seperti prepared statements, CSRF protection, password hashing, dan session management.
+
+### Fitur Utama
+
+| No | Fitur                  | Deskripsi                                                                 |
+|----|------------------------|---------------------------------------------------------------------------|
+| 1  | 🔐 Autentikasi         | Login, register, logout dengan session, cookie (Remember Me), dan CSRF   |
+| 2  | 📊 Dashboard            | Statistik ringkasan, grafik distribusi nilai, pengumuman terbaru          |
+| 3  | 📝 Manajemen Nilai      | Input & lihat nilai siswa (Ulangan Harian, UTS, UAS, Tugas)              |
+| 4  | 📚 Mata Pelajaran       | Daftar mata pelajaran beserta guru pengampu                               |
+| 5  | 📢 Pengumuman           | Buat, lihat, dan hapus pengumuman sekolah                                 |
+| 6  | 📄 Rapor                | Laporan akademik per siswa per semester dengan grade (A-E)                |
+| 7  | 👤 Kelola Users         | Tambah & hapus pengguna dengan role-based access                          |
+| 8  | 🏫 Panel Admin          | Panel khusus admin untuk manajemen seluruh sistem                         |
+| 9  | 🌙 Landing Page         | Halaman publik dengan informasi fitur dan ajakan mendaftar                |
+
+### Role & Hak Akses
+
+| Role      | Hak Akses                                                   |
+|-----------|--------------------------------------------------------------|
+| `admin`   | Full access — kelola users, sekolah, nilai, pengumuman       |
+| `teacher` | Input nilai, buat pengumuman, lihat data siswa               |
+| `student` | Lihat nilai sendiri, rapor, pengumuman                       |
+| `parent`  | Lihat pengumuman                                             |
+
+---
+
+## 💻 Tech Stack
+
+| Komponen       | Teknologi                          |
+|----------------|------------------------------------|
+| **Backend**    | PHP Native (tanpa framework)       |
+| **Database**   | MySQL 5.7+                         |
+| **Frontend**   | HTML5, CSS3, JavaScript            |
+| **CSS**        | Tailwind CSS v3 (via CDN)          |
+| **Charts**     | Chart.js v4                        |
+| **Font**       | Inter (Google Fonts)               |
+| **Web Server** | Apache (Laragon)                   |
+
+---
+
+## 🗂️ Struktur Project
+
+```
+native/
+├── admin/
+│   └── admin.php              # Panel admin
+├── auth/
+│   ├── login.php              # Halaman login
+│   ├── logout.php             # Proses logout
+│   └── register.php           # Halaman register
+├── layout/
+│   ├── header.php             # Sidebar & topbar
+│   ├── footer.php             # Footer
+│   └── tailwind-config.php    # Konfigurasi Tailwind
+├── pages/
+│   ├── dashboard.php          # Dashboard utama
+│   ├── grades.php             # Manajemen nilai
+│   ├── subjects.php           # Mata pelajaran
+│   ├── announcements.php      # Pengumuman
+│   ├── users.php              # Kelola users
+│   ├── reports.php            # Rapor
+│   └── notifications.php      # Notifikasi
+├── utils/
+│   └── fix_hash.php           # Utility reset password
+├── config.php                 # Koneksi database & session
+├── helpers.php                # Fungsi helper
+├── database.sql               # Schema & sample data
+├── index.php                  # Landing page
+└── README.md                  # Dokumentasi
+```
+
+---
+
+## 🚀 Tutorial Setup (di Laptop Lain)
+
+### Persyaratan
 
 | Komponen    | Versi Minimum |
 |-------------|---------------|
 | PHP         | 7.4+          |
 | MySQL       | 5.7+          |
-| Web Server  | Apache / Nginx (atau Laragon) |
-
-> **Rekomendasi:** Gunakan [Laragon](https://laragon.org/) untuk setup instan di Windows.
-
----
-
-## 🚀 Tutorial Setup di Laptop Lain
+| Web Server  | Apache (Laragon) |
 
 ### Langkah 1: Install Laragon
 
 1. Download Laragon di [https://laragon.org/download/](https://laragon.org/download/)
 2. Install dan jalankan Laragon
-3. Pastikan **Apache** dan **MySQL** sudah berjalan (klik `Start All`)
+3. Klik **Start All** untuk menjalankan Apache & MySQL
 
-### Langkah 2: Clone / Copy Project
+### Langkah 2: Copy Project
 
 Copy seluruh folder `native` ke dalam folder `www` milik Laragon:
 
@@ -45,56 +150,22 @@ Copy seluruh folder `native` ke dalam folder `www` milik Laragon:
 C:\laragon\www\native\
 ```
 
-Struktur folder yang benar:
-
-```
-C:\laragon\www\native\
-├── admin/
-│   └── admin.php
-├── auth/
-│   ├── login.php
-│   ├── logout.php
-│   └── register.php
-├── layout/
-│   ├── header.php
-│   ├── footer.php
-│   └── tailwind-config.php
-├── pages/
-│   ├── dashboard.php
-│   ├── grades.php
-│   ├── subjects.php
-│   ├── announcements.php
-│   ├── users.php
-│   ├── reports.php
-│   └── notifications.php
-├── utils/
-│   └── fix_hash.php
-├── config.php
-├── helpers.php
-├── database.sql
-├── index.php
-└── README.md
-```
-
 ### Langkah 3: Buat Database
 
-1. Buka **phpMyAdmin** melalui Laragon:
-   - Klik kanan icon Laragon di system tray → **MySQL** → **phpMyAdmin**
-   - Atau buka browser: [http://localhost/phpmyadmin](http://localhost/phpmyadmin)
+1. Buka **phpMyAdmin**:
+   - Klik kanan icon Laragon → **MySQL** → **phpMyAdmin**
+   - Atau buka: [http://localhost/phpmyadmin](http://localhost/phpmyadmin)
 
-2. **Import database:**
-   - Klik tab **Import** di phpMyAdmin
-   - Pilih file `database.sql` dari folder project
-   - Klik **Go / Kirim**
+2. Klik tab **Import** → pilih file `database.sql` → klik **Go**
 
-   **Atau** jalankan lewat terminal:
+   Atau jalankan lewat terminal:
    ```bash
    mysql -u root < C:\laragon\www\native\database.sql
    ```
 
 ### Langkah 4: Konfigurasi Database
 
-Buka file `config.php` dan sesuaikan pengaturan koneksi database:
+Buka `config.php`, pastikan pengaturan sesuai:
 
 ```php
 define('DB_HOST', 'localhost');
@@ -103,19 +174,18 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 ```
 
-> ⚠️ **Default Laragon:** username `root` dengan password kosong (`''`). Jika MySQL kamu punya password, ubah `DB_PASS` sesuai password-mu.
-
 ### Langkah 5: Akses Aplikasi
 
-Buka browser dan akses:
-
+Buka browser:
 ```
 http://localhost/native/
 ```
 
 ---
 
-## 🔑 Informasi Database
+## 🔑 Informasi Database & Login
+
+### Database
 
 | Item              | Nilai              |
 |-------------------|--------------------|
@@ -123,13 +193,10 @@ http://localhost/native/
 | **Username DB**   | `root`             |
 | **Password DB**   | *(kosong / empty)* |
 | **Host**          | `localhost`         |
-| **Charset**       | `utf8mb4`          |
 
----
+### Akun Login Default
 
-## 🔐 Akun Login Default
-
-Semua akun default menggunakan password yang sama: **`password`**
+Semua akun menggunakan password: **`password`**
 
 | Role    | Email              | Password   |
 |---------|--------------------|------------|
@@ -137,57 +204,15 @@ Semua akun default menggunakan password yang sama: **`password`**
 | Guru    | `guru@acahub.id`   | `password` |
 | Siswa   | `siswa@acahub.id`  | `password` |
 
-> Anda juga bisa mendaftar akun baru lewat halaman **Register**.
-
 ---
 
 ## 🔧 Troubleshooting
 
-### ❌ "Access denied for user 'root'@'localhost'"
-Password MySQL berbeda. Buka `config.php` dan ubah `DB_PASS` sesuai password MySQL kamu.
-
-### ❌ "Unknown database 'acahub_native'"
-Database belum dibuat. Import file `database.sql` lewat phpMyAdmin atau terminal.
-
-### ❌ "Cannot modify header information - headers already sent"
-Pastikan tidak ada spasi atau karakter sebelum tag `<?php` di file PHP.
-
-### ❌ Halaman blank / error 500
-Pastikan ekstensi PHP `pdo_mysql` sudah aktif. Cek di Laragon: Menu → PHP → Extensions → centang `pdo_mysql`.
-
----
-
-## 🗃️ Tabel Database
-
-| Tabel           | Deskripsi                        |
-|-----------------|----------------------------------|
-| `users`         | Data pengguna (admin, guru, siswa, orang tua) |
-| `schools`       | Data sekolah terdaftar           |
-| `subjects`      | Mata pelajaran                   |
-| `classrooms`    | Kelas                            |
-| `grades`        | Nilai siswa                      |
-| `announcements` | Pengumuman                       |
-
----
-
-## 👥 Role & Hak Akses
-
-| Role      | Hak Akses                                                  |
-|-----------|-------------------------------------------------------------|
-| `admin`   | Full access — kelola users, sekolah, nilai, pengumuman     |
-| `teacher` | Input nilai, buat pengumuman, lihat data siswa             |
-| `student` | Lihat nilai sendiri, rapor, pengumuman                     |
-| `parent`  | Lihat pengumuman                                           |
-
----
-
-## 📦 Tech Stack
-
-- **Backend:** PHP Native (tanpa framework)
-- **Database:** MySQL
-- **Frontend:** Tailwind CSS v3 (CDN)
-- **Charts:** Chart.js v4
-- **Font:** Inter (Google Fonts)
+| Error | Solusi |
+|-------|--------|
+| Access denied for user 'root' | Ubah `DB_PASS` di `config.php` sesuai password MySQL kamu |
+| Unknown database 'acahub_native' | Import `database.sql` lewat phpMyAdmin |
+| Halaman blank / error 500 | Aktifkan ekstensi `pdo_mysql` di PHP |
 
 ---
 
